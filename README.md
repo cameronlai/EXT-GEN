@@ -1,4 +1,4 @@
-# EXT-GEN
+# EXT_GEN
 
 ---
 
