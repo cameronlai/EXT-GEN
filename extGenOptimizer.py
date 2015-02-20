@@ -31,7 +31,7 @@ import random
 import numpy
 
 # Hard coded probabilities and generations
-CXPB, MUTPB, NGEN = 0.5, 0.2, 25
+CXPB, MUTPB, NGEN = 0.5, 0.2, 50
 
 # Create your models here.
 class extGenOptimizer():
@@ -150,7 +150,7 @@ class extGenOptimizer():
                     firstSubjectExamined = True
                     lastEndTime = schedule[idx][2]
         if len(revisionTimeArray) == 0:
-            return [0]
+            return [float('inf')]
         else:
             return revisionTimeArray
 
@@ -159,12 +159,13 @@ class extGenOptimizer():
     # Average all student's revision time
     def evalExamTimetableGenome(self, individual):
         schedule = self.getSchedule(individual)
-        minStudentRevisionTime = float('inf')
+        minRevisionTime = float('inf')
         for student in self.studentRecord:
-            tmpRevisionTime = self.getRevisionTimeFromSchedule(student, schedule)
-            if min(tmpRevisionTime) < minStudentRevisionTime:
-                minStudentRevisionTime = min(tmpRevisionTime)
-        return minStudentRevisionTime , # Comma is important
+            tmpRevisionTime = self.getRevisionTimeFromSchedule(student, 
+                                                               schedule)
+            if min(tmpRevisionTime) < minRevisionTime:
+                minRevisionTime = min(tmpRevisionTime)
+        return minRevisionTime, # Comma is important
 
     # Copy child 1 and 2 as individual 1 and 2
     # Take two points
@@ -248,9 +249,11 @@ class extGenOptimizer():
             tmp.append(schedule[idx][2])
             result.append(tmp)
         print tabulate(result)
+        obj1 = self.evalExamTimetableGenome(individual)
+        print "Min Revision Time = %f" % (obj1)
 
     # Run otpimizer
-    def run(self):
+    def run(self, verbose = False):
         # Data validation
 
         # Data formation
@@ -270,19 +273,22 @@ class extGenOptimizer():
         self.maxRevisionTime = self.totalNumHours - len(self.subjectLookUp) * 1
         
         pop = self.toolbox.population(n=300)
-        
-        print("Start of evolution")
+
+        if verbose:
+            print("Start of evolution")
     
         # Evaluate the entire population
         fitnesses = list(map(self.toolbox.evaluate, pop))
         for ind, fit in zip(pop, fitnesses):
             ind.fitness.values = fit
     
-        print("  Evaluated %i individuals" % len(pop))
+        if verbose:
+            print("  Evaluated %i individuals" % len(pop))
         
         # Begin the evolution
         for g in range(NGEN):
-            print("-- Generation %i --" % g)
+            if verbose:
+                print("-- Generation %i --" % g)
         
             # Select the next generation individuals
             offspring = self.toolbox.select(pop, len(pop))
@@ -307,30 +313,32 @@ class extGenOptimizer():
             for ind, fit in zip(invalid_ind, fitnesses):
                 ind.fitness.values = fit
         
-            print("  Evaluated %i individuals" % len(invalid_ind))
+            if verbose:
+                print("  Evaluated %i individuals" % len(invalid_ind))
         
             # The population is entirely replaced by the offspring
             pop[:] = offspring
-        
-            # Gather all the fitnesses in one list and print the stats
-            fits = [ind.fitness.values[0] for ind in pop]
-        
-            length = len(pop)
-            mean = sum(fits) / length
-            sum2 = sum(x*x for x in fits)
-            std = abs(sum2 / length - mean**2)**0.5
-
-            print("  Min %s" % min(fits))
-            print("  Max %s" % max(fits))
-            print("  Avg %s" % mean)
-            print("  Std %s" % std)            
             
-            print("-- End of (successful) evolution --")
-    
-        self.best_ind = tools.selBest(pop, 1)[0]
-        print("Best individual is %s, %s" % (self.best_ind, 
-                                             self.best_ind.fitness.values))
+            if verbose:
+                # Gather all the fitnesses in one list and print the stats
+                fits = [ind.fitness.values[0] for ind in pop]
+        
+                length = len(pop)
+                mean = sum(fits) / length
+                sum2 = sum(x*x for x in fits)
+                std = abs(sum2 / length - mean**2)**0.5
+            
+                print("  Min %s" % min(fits))
+                print("  Max %s" % max(fits))
+                print("  Avg %s" % mean)
+                print("  Std %s" % std)            
+            
+                print("-- End of (successful) evolution --")
 
+        self.best_ind = tools.selBest(pop, 1)[0]
+        if verbose:
+            self.printResult(self.best_ind)
+            
 if __name__ == "__main__":
     t = extGenOptimizer()
     t.timeSlots = [
@@ -339,10 +347,8 @@ if __name__ == "__main__":
         [datetime(2015, 11, 13, 9), datetime(2015, 11, 13, 12)],
         ]
     t.studentRecord = [
-        ["A", "Chinese", "English"],
-        ["B", "Chinese", "English"],
-        ["C", "Chinese", "English", "Math"],
+        ["A", "Chinese"],
+        ["B", "Chinese", "English", "Science"],
+        ["C", "Chinese", "English", "Math", "Science", "P.E."],
         ]         
-    t.run()
-    print "\n\nBest Individual"
-    t.printResult(t.best_ind)
+    t.run(verbose=True)
