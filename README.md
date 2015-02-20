@@ -19,10 +19,22 @@ git clone https://github.com/cameronlai/EXT_GEN
 ``` bash
 sudo python setup.py
 ```
+4. Go to settings.py in your project folder
+``` bash
+cd ../EXT_GEN/PROJECT
+nano settings.py
+```
+Add 'EXT_GEN' in INSTALLED_APPS
+Add 'EXT_GEN/static/', in STATICFILES_DIR
+5. Run migrations with manage.py
+``` bash
+cd ../
+sudo python manage.py migrate
+```
 
 ## Running Django app
 1. Run server
 ``` bash
 python manage.py runserver
 ```
-2. Launch web browser, enter correct IP address (Default is 127.0.0.1:8080) and your app is here.
+2. Launch web browser, enter correct IP address (Default is 127.0.0.1:8080/EXT_GEN) and your app is running.
