@@ -6,34 +6,23 @@ This hopes to reduce the workload of teachers in scheduling exam timetable. It r
 
 ## Set up
 
-1. Install dependencies by setup script
+1. Start Django Project
+``` bash
+django-admin startproject EXT_GEN_PROJECT
+cd EXT_GEN_PROJECT
+```
+2. Clone the git repository
+``` bash
+git clone https://github.com/cameronlai/EXT_GEN
+```
+3. Install dependencies and config the Django projectby setup script
 ``` bash
 sudo python setup.py
 ```
-2. Clone into temp folder
-``` bash
-git clone https://github.com/cameronlai/EXT_GEN temp
-```
-3. Start Django Project
-``` bash
-django-admin startproject EXT_GEN_PROJECT
-```
-4. Copy Django app into project folder
-``` bash
-mv temp/* EXT_GEN_PROJECT/
-```
-5. Remove temp folder
-``` bash
-rm -rf temp
-```
 
 ## Running Django app
-1. Go to project folder
-``` bash
-cd EXT_GEN_PROJECT
-```
-2. Run server
+1. Run server
 ``` bash
 python manage.py runserver
 ```
-3. Launch web browser, enter correct IP address and your app is here.
+2. Launch web browser, enter correct IP address (Default is 127.0.0.1:8080) and your app is here.
