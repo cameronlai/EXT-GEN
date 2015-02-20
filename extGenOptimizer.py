@@ -33,7 +33,7 @@ import numpy
 CXPB, MUTPB, NGEN = 0.5, 0.2, 50
 
 # Create your models here.
-class examOptimizer():
+class extGenOptimizer():
     def __init__(self):
         random.seed(128)
         numpy.random.seed(128)
@@ -293,8 +293,9 @@ class examOptimizer():
             
             print("-- End of (successful) evolution --")
     
-        best_ind = tools.selBest(pop, 1)[0]
-        print("Best individual is %s, %s" % (best_ind, best_ind.fitness.values))
+        self.best_ind = tools.selBest(pop, 1)[0]
+        print("Best individual is %s, %s" % (self.best_ind, 
+                                             self.best_ind.fitness.values))
 
 if __name__ == "__main__":
     t = examOptimizer()
