@@ -25,12 +25,13 @@ from deap import algorithms
 from deap import base
 from deap import creator
 from deap import tools
+from tabulate import tabulate
 
 import random
 import numpy
 
 # Hard coded probabilities and generations
-CXPB, MUTPB, NGEN = 0.5, 0.2, 50
+CXPB, MUTPB, NGEN = 0.5, 0.2, 25
 
 # Create your models here.
 class extGenOptimizer():
@@ -87,15 +88,13 @@ class extGenOptimizer():
         individual = creator.Individual(examTimetableGenome)
         return individual
 
-    # Generate schedule base on order and revision time
-    # For each student, sum up their revision time
-    # Average all student's revision time
+    # Gets each subject's start time and end time base on revision time
     # Schedule format:
     # idx = 0: subject name
     # idx = 1: start time
     # idx = 2: end time
     # Fixed duration (i.e 1 hour) (self.examSubjectDuration)
-    def evalExamTimetableGenome(self, individual):
+    def getSchedule(self, individual):
         schedule = []
         timeSlotCounter = 0
         for idx in range(0, self.subjectLookUpLen):
@@ -131,24 +130,40 @@ class extGenOptimizer():
                     self.subjectLookUp[int(individual[idx][0])],
                     startTime, 
                     endTime
-                    ])           
+                    ])
+        return schedule
 
-        minStudentRevisionTime = self.maxRevisionTime
-        for student in self.studentRecord:
-            firstSubjectExamined = False
-            studentSubjectList = student[1:]
-            for idx in range(0, self.subjectLookUpLen):
-                if schedule[idx][0] in studentSubjectList:
-                    if firstSubjectExamined:
-                        revisionTime = \
-                            (schedule[idx][1] - lastEndTime).total_seconds() \
-                            / 3600
-                        if revisionTime < minStudentRevisionTime:
-                            minStudentRevisionTime = revisionTime
-                    else:
-                        firstSubjectExamined = True
+    # Gets all the revision time based on the student's examination list
+    # and the exam schedule generated
+    def getRevisionTimeFromSchedule(self, record, schedule):
+        revisionTimeArray = []
+        firstSubjectExamined = False
+        studentSubjectList = record[1:]
+        for idx in range(0, self.subjectLookUpLen):
+            if self.subjectLookUp[idx] in studentSubjectList:
+                if firstSubjectExamined:
+                    revisionTimeArray.append(
+                        (schedule[idx][1] - lastEndTime).total_seconds() 
+                        / 3600)
                     lastEndTime = schedule[idx][2]
+                else:
+                    firstSubjectExamined = True
+                    lastEndTime = schedule[idx][2]
+        if len(revisionTimeArray) == 0:
+            return [0]
+        else:
+            return revisionTimeArray
 
+    # Generate schedule base on order and revision time
+    # For each student, sum up their revision time
+    # Average all student's revision time
+    def evalExamTimetableGenome(self, individual):
+        schedule = self.getSchedule(individual)
+        minStudentRevisionTime = float('inf')
+        for student in self.studentRecord:
+            tmpRevisionTime = self.getRevisionTimeFromSchedule(student, schedule)
+            if min(tmpRevisionTime) < minStudentRevisionTime:
+                minStudentRevisionTime = min(tmpRevisionTime)
         return minStudentRevisionTime , # Comma is important
 
     # Copy child 1 and 2 as individual 1 and 2
@@ -216,6 +231,25 @@ class extGenOptimizer():
 
         return individual
 
+    # Print results including all information
+    def printResult(self, individual):
+        result = [['Subject', 'Revision Time', 'Start Time', 'End Time'], 
+                  ['-'*20] * 4]
+        schedule = self.getSchedule(individual)
+        for idx in range(self.subjectLookUpLen):
+            tmp = []
+            tmp.append(self.subjectLookUp[int(individual[idx][0])])
+            if idx < self.subjectLookUpLen -1:
+                tmp.append((schedule[idx+1][1]-schedule[idx][2])
+                           .total_seconds() / 3600)
+            else:
+                tmp.append(0)
+            tmp.append(schedule[idx][1])
+            tmp.append(schedule[idx][2])
+            result.append(tmp)
+        print tabulate(result)
+
+    # Run otpimizer
     def run(self):
         # Data validation
 
@@ -298,10 +332,11 @@ class extGenOptimizer():
                                              self.best_ind.fitness.values))
 
 if __name__ == "__main__":
-    t = examOptimizer()
+    t = extGenOptimizer()
     t.timeSlots = [
         [datetime(2015, 11, 11, 9), datetime(2015, 11, 11, 12)],
         [datetime(2015, 11, 12, 9), datetime(2015, 11, 12, 12)],
+        [datetime(2015, 11, 13, 9), datetime(2015, 11, 13, 12)],
         ]
     t.studentRecord = [
         ["A", "Chinese", "English"],
@@ -309,3 +344,5 @@ if __name__ == "__main__":
         ["C", "Chinese", "English", "Math"],
         ]         
     t.run()
+    print "\n\nBest Individual"
+    t.printResult(t.best_ind)

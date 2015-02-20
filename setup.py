@@ -10,6 +10,7 @@ def installAll():
     allPackages = [
         'deap',
         'numpy',
+        'tabulate',
     ]
     for p in allPackages:
         install(p)
