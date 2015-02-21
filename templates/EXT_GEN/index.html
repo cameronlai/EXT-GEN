@@ -66,10 +66,10 @@
 		</td>
 	      </tr>
 	    </table>
-	    </div>
-            <div class="row">
-              <form class="form-inline"  action="/EXT_GEN/" method="post" enctype="multipart/form-data">
-		{% csrf_token %}
+	  </div>
+          <div class="row">
+            <form class="form-inline"  action="/EXT_GEN/" method="post" enctype="multipart/form-data">
+	      {% csrf_token %}
 
               <h2 class="handWritten handWrittenH2"> Step 2 </h2>
               <p class="instructions">Modify the template files and upload them</p>
@@ -79,14 +79,14 @@
 		<label for="id_timeSlotFile">Available timeslots</label>
 		{{ form.timeSlotFile }}
 	      </div>
-            </div>
+          </div>
 
-            <div class="row">
-              <h2 class="handWritten handWrittenH2"> Step 3 </h2>
-              <button class="btn btn-primary btn-large btn-block" type="submit" value="Submit"> 
-		<p>Generate Time Table</p>
-              </button>
-            </div>
+          <div class="row">
+            <h2 class="handWritten handWrittenH2"> Step 3 </h2>
+            <button class="btn btn-primary btn-large btn-block" type="submit" value="Submit"> 
+	      <p>Generate Time Table</p>
+            </button>
+          </div>
           </form>
         </div>
         <div class="col-md-9">
@@ -100,4 +100,3 @@
       </div>
   </body>
 </html>
-
