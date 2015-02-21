@@ -3,9 +3,11 @@
 <html lang="en">
   <head>
     <meta charset='utf-8' />
+    <link href='http://fonts.googleapis.com/css?family=Kranky' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}"/>
     <link rel="stylesheet" href="{% static "css/fullcalendar.min.css" %}"/>
     <link rel="stylesheet" href="{% static "css/fullcalendar.print.css" %}" media="print"/>
+    <link rel="stylesheet" href="{% static "css/ext_gen.css" %}"/>
     <script type="text/javascript" src="{% static "js/moment.min.js" %}"></script>
     <script type="text/javascript" src="{% static "js/jquery.min.js" %}"></script>
     <script type="text/javascript" src="{% static "js/bootstrap.min.js" %}"></script>
@@ -28,60 +30,61 @@
       }
     </script>
     <style>
-      body {
-      margin: 40px 10px;
-      padding: 0;
-      font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
-      font-size: 14px;
-      }
-
       #calendar {
       max-width: 900px;
       margin: 0 auto;
       }
     </style>
-    <title> Exam Time Table Generator </title>
+    <title> Exam Timetable Generator </title>
   </head>
   <body>
-    <div class="container text-center">
-      <div class="row">
-        <h1> Exam Time Table Generator </h1>
+    <div class="container">
+      <div class="row text-center">
+        <h1 class="handWritten"> Exam Timetable Generator </h1>
+	<p class="handWritten handWrittenP"> Optimizing exam timetables by maximizing revision time between exams</p>
       </div>
+      <br>
+      <br>
       <div class="row">
         <div class="col-md-3">
           <div class="row">
-            <h2> Step 1 </h2>
-            Download the template files
-            <li>
-              <a href="{% static "forms/studentRecords.csv" %}">
-                Downlaod Student Record Template
-              </a>
-            </li>
-            <li>
-              <a href="{% static "forms/timeSlots.csv" %}">
-                Download Available time slots Template
-              </a>
-            </li>
-          </div>
-          <form class="form-inline"  action="/EXT_GEN/" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
+            <h2 class="handWritten handWrittenH2"> Step 1 </h2>
+            <p class="instructions">Download the template files</p>
+            <table class="table table-bordered table-condensed">
+	      <tr>
+		<td>
+		  <a href="{% static "forms/studentRecords.csv" %}">
+		    Student Record Template
+		  </a>
+		</td>
+	      </tr>
+	      <tr>
+		<td>
+		  <a href="{% static "forms/timeSlots.csv" %}">
+                    Available time slots Template
+		  </a>		  
+		</td>
+	      </tr>
+	    </table>
+	    </div>
             <div class="row">
-              <h2> Step 2 </h2>
-              Modify the template files and upload them
-              <li>
-		Student record files:             
+              <form class="form-inline"  action="/EXT_GEN/" method="post" enctype="multipart/form-data">
+		{% csrf_token %}
+
+              <h2 class="handWritten handWrittenH2"> Step 2 </h2>
+              <p class="instructions">Modify the template files and upload them</p>
+	      <div class="form-group">
+		<label for="id_studentRecordFile">Student record file</label>
 		{{ form.studentRecordFile }}
-              </li>
-              <li>
-		Available timeslots: 
+		<label for="id_timeSlotFile">Available timeslots</label>
 		{{ form.timeSlotFile }}
-              </li>
+	      </div>
             </div>
 
             <div class="row">
-              <h2> Step 3 </h2>
-              <button class="btn btn-large" type="submit" value="Submit"> 
-		Generate Time Table
+              <h2 class="handWritten handWrittenH2"> Step 3 </h2>
+              <button class="btn btn-primary btn-large btn-block" type="submit" value="Submit"> 
+		<p>Generate Time Table</p>
               </button>
             </div>
           </form>
@@ -89,10 +92,12 @@
         <div class="col-md-9">
           <div id="calendar"></div>
         </div>
-      </div>     
-      <hr>
-      Designed by <a href="http://cameronlai.com"> Cameron Lai </a>
-      <hr>
+      </div>
+      <div class="row text-center">
+	<hr>
+	Designed by <a href="http://cameronlai.com"> Cameron Lai </a>
+	<hr>
+      </div>
   </body>
 </html>
 

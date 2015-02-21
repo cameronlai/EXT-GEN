@@ -30,6 +30,7 @@ def index(request):
         if form.is_valid():
             myOptimizerParser = extGenOptimizer1()
             events = myOptimizerParser.run(request.FILES)
+            rotate_token(request)
         # else:
         #     indexContext['fileReturnError'] = 'true'
     else:
@@ -38,6 +39,5 @@ def index(request):
     indexContext['form'] = form
     indexContext['calendar_config_options'] = OPTIONS
     indexContext['calendar_events'] = events
-    rotate_token(request)
     return render(request, 'EXT_GEN/index.html', indexContext)
 

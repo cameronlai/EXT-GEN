@@ -1,0 +1,21 @@
+.handWritten {
+    font-family: 'Kranky', cursive;
+}
+
+.handWrittenH2 {
+    text-decoration: underline;    
+}
+
+.handWrittenP {
+    font-size: 150%;
+}
+
+.instructions {
+    font-style: italic;
+    font-weight: bold;
+}
+
+h1 {
+    font-size: 500%;
+}
+
