@@ -25,7 +25,6 @@
 from django.shortcuts import render, HttpResponse
 from django.shortcuts import HttpResponseRedirect
 from django.template import Context, Template
-from django.middleware.csrf import rotate_token
 
 from models import UploadFileForm
 from models import extGenOptimizer1
@@ -50,13 +49,10 @@ def index(request):
     
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
-        print "form is valid or not = ", form.is_valid()
         if form.is_valid():
             myOptimizerParser = extGenOptimizer1()
             events = myOptimizerParser.run(request.FILES)
-            rotate_token(request)
-        # else:
-        #     indexContext['fileReturnError'] = 'true'
+            # indexContext['fileReturnError'] = 'true'
     else:
         form = UploadFileForm()
     
