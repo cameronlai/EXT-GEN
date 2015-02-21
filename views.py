@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse
 from django.shortcuts import HttpResponseRedirect
 from django.template import Context, Template
+from django.middleware.csrf import rotate_token
 
 from models import UploadFileForm
 from models import extGenOptimizer1
@@ -37,6 +38,6 @@ def index(request):
     indexContext['form'] = form
     indexContext['calendar_config_options'] = OPTIONS
     indexContext['calendar_events'] = events
-
+    rotate_token(request)
     return render(request, 'EXT_GEN/index.html', indexContext)
 
