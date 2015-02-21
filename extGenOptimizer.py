@@ -115,7 +115,7 @@ class extGenOptimizer():
                     timeSlotStart = self.timeSlots[timeSlotCounter][0]
                     timeSlotEnd = self.timeSlots[timeSlotCounter][1]
                     timeSlotDuration = timeSlotEnd - timeSlotStart
-                    if timeSlotDuration < extraRevisionTime:
+                    if timeSlotDuration <= extraRevisionTime:
                         if timeSlotCounter >= len(self.timeSlots):
                             print 'fail'
                             return 0 # Punishment
@@ -127,7 +127,6 @@ class extGenOptimizer():
                         endTime = startTime + self.examSubjectDuration
                         break
             lastEndTime = endTime
-
             schedule.append([
                     self.subjectLookUp[int(individual[idx][0])],
                     startTime, 
