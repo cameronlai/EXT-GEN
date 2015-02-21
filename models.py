@@ -13,11 +13,10 @@ import re
 class UploadFileForm(forms.Form):
     studentRecordFile = forms.FileField()
     timeSlotFile = forms.FileField()
-    subjectDurationFile = forms.FileField()    
 
 # This model parses the CSV input file into the format 
 # and passes to the optimizer
-class timeTableGenerator():
+class extGenOptimizer1():
     def __init__(self):
         self.examEvents = []
         self.dateFormat = "%Y-%m-%d"
@@ -27,14 +26,13 @@ class timeTableGenerator():
     def run(self, uploadFiles):
         self.addStudentRecords(uploadFiles['studentRecordFile'])
         self.addTimeSlots(uploadFiles['timeSlotFile'])
-        schedule = self.runOptimizer()
+        self.runOptimizer()
         return self.getJSONdump()
 
-    def convertScheduleToExamEvents(self, schedule):
+    def convertScheduleToExamEvents(self):
         self.examEvents = []
-        for item in schedule:
+        for item in self.schedule:
             self.addExamEvent(item[0], item[1], item[2])
-        print self.examEvents
 
     def addExamEvent(self, title, start, end):
         examEvent = {}
@@ -81,8 +79,8 @@ class timeTableGenerator():
         myOptimizer = extGenOptimizer()
         myOptimizer.timeSlots = self.timeSlots
         myOptimizer.studentRecord = self.studentRecords
-        schedule = myOptimizer.run(verbose=verbose)
-        self.convertScheduleToExamEvents(schedule)
+        self.schedule = myOptimizer.run(verbose=verbose)
+        self.convertScheduleToExamEvents()
             
     def getJSONdump(self):
         # Sort the exam events
@@ -101,7 +99,7 @@ class timeTableGenerator():
         return defaultDateReturnString + eventReturnString
 
 if __name__ == "__main__":
-    t = timeTableGenerator()
+    t = extGenOptimizer1()
 
     f = File(open('static/forms/timeSlots.csv'))
     t.addTimeSlots(f)

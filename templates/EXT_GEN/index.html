@@ -12,8 +12,8 @@
     <script type="text/javascript" src="{% static "js/fullcalendar.min.js" %}"></script>
     
     <script>
-	  $(document).ready(function() {
-	  $('#calendar').fullCalendar({
+      $(document).ready(function() {
+      $('#calendar').fullCalendar({
       {% autoescape off %}
       {{ calendar_config_options }}
       {{ calendar_events }}
@@ -28,21 +28,18 @@
       }
     </script>
     <style>
+      body {
+      margin: 40px 10px;
+      padding: 0;
+      font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+      font-size: 14px;
+      }
 
-	  body {
-	  margin: 40px 10px;
-	  padding: 0;
-	  font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
-	  font-size: 14px;
-	  }
-
-	  #calendar {
-	  max-width: 900px;
-	  margin: 0 auto;
-	  }
-
+      #calendar {
+      max-width: 900px;
+      margin: 0 auto;
+      }
     </style>
-
     <title> Exam Time Table Generator </title>
   </head>
   <body>
@@ -52,62 +49,50 @@
       </div>
       <div class="row">
         <div class="col-md-3">
-
           <div class="row">
             <h2> Step 1 </h2>
             Download the template files
             <li>
-              <a href="{% static "studentRecord.txt" %}">
+              <a href="{% static "forms/studentRecords.csv" %}">
                 Downlaod Student Record Template
               </a>
             </li>
             <li>
-              <a href="{% static "subjectDuration.txt" %}">
-                Download Subject Duration File
-              </a>
-            </li>
-            <li>
-              <a href="{% static "timeSlot.txt" %}">
+              <a href="{% static "forms/timeSlots.csv" %}">
                 Download Available time slots Template
               </a>
             </li>
           </div>
-
-          <form class="form-inline"  action="/examTimeTableGenerator/" method="post" enctype="multipart/form-data">
+          <form class="form-inline"  action="/EXT_GEN/" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-          <div class="row">
-            <h2> Step 2 </h2>
-            Modify the template files and upload them
-            <li>
-              Student record files:             
-              {{ form.studentRecordFile }}
-            </li>
-            <li>
-              Subject duration
-              {{ form.subjectDurationFile }}
-            </li>
-            <li>
-              Available timeslots: 
-              {{ form.timeSlotFile }}
-            </li>
-          </div>
+            <div class="row">
+              <h2> Step 2 </h2>
+              Modify the template files and upload them
+              <li>
+		Student record files:             
+		{{ form.studentRecordFile }}
+              </li>
+              <li>
+		Available timeslots: 
+		{{ form.timeSlotFile }}
+              </li>
+            </div>
 
-          <div class="row">
-            <h2> Step 3 </h2>
-            <button class="btn btn-large" type="submit" value="Submit"> 
-              Generate Time Table
-            </button>
-          </div>
+            <div class="row">
+              <h2> Step 3 </h2>
+              <button class="btn btn-large" type="submit" value="Submit"> 
+		Generate Time Table
+              </button>
+            </div>
           </form>
         </div>
-        
         <div class="col-md-9">
           <div id="calendar"></div>
         </div>
       </div>     
-    <hr>
-    Designed by <a href="http://cameronlai.com"> Cameron Lai </a>
-    <hr>
+      <hr>
+      Designed by <a href="http://cameronlai.com"> Cameron Lai </a>
+      <hr>
   </body>
 </html>
 
