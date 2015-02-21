@@ -60,3 +60,7 @@ This hopes to reduce the workload of teachers in scheduling exam timetable. It r
   ```
 
 2. Launch web browser, enter correct IP address (Default is 127.0.0.1:8080/EXT_GEN) and your app is running.
+
+## License
+
+The app is released under the MIT License and more information can be found in the LICENSE file.
