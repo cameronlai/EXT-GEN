@@ -338,6 +338,7 @@ class extGenOptimizer():
         self.best_ind = tools.selBest(pop, 1)[0]
         if verbose:
             self.printResult(self.best_ind)
+        return self.getSchedule(self.best_ind)
             
 if __name__ == "__main__":
     t = extGenOptimizer()
