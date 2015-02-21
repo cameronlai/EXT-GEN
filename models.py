@@ -1,3 +1,27 @@
+# The MIT License (MIT)
+
+# Copyright (c) 2015 Cameron Lai
+
+# Permission is hereby granted, free of charge, to any person
+# obtaining a copy of this software and associated documentation files
+# (the "Software"), to deal in the Software without restriction,
+# including without limitation the rights to use, copy, modify, merge,
+# publish, distribute, sublicense, and/or sell copies of the Software,
+# and to permit persons to whom the Software is furnished to do so,
+# subject to the following conditions:
+
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
+
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+# BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+# ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+# CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
 from django import forms
@@ -33,6 +57,8 @@ class extGenOptimizer1():
         self.examEvents = []
         for item in self.schedule:
             self.addExamEvent(item[0], item[1], item[2])
+        for item in self.timeSlots:
+            self.addBackgroundTimeSlots(item[0], item[1])
 
     def addExamEvent(self, title, start, end):
         examEvent = {}
@@ -41,6 +67,15 @@ class extGenOptimizer1():
         examEvent['end'] = end
         examEvent['description'] = ''
         self.examEvents.append(examEvent)
+
+    def addBackgroundTimeSlots(self, start, end):
+        backgroundTimeSlot = {}
+        backgroundTimeSlot['id'] = 'timeSlots'
+        backgroundTimeSlot['start'] = start
+        backgroundTimeSlot['end'] = end
+        backgroundTimeSlot['rendering'] = 'background'
+        backgroundTimeSlot['description'] = ''
+        self.examEvents.append(backgroundTimeSlot)
 
     def addStudentRecords(self, studentRecordFile):
         tmpFile = NamedTemporaryFile()
