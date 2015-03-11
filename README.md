@@ -18,14 +18,8 @@ This hopes to reduce the workload of teachers in scheduling exam timetable. It r
   ``` bash
   git clone https://github.com/cameronlai/EXT_GEN
   ```
-  
-3. Install dependencies and config the Django projectby setup script
-
-  ``` bash
-  sudo python setup.py
-  ```
-  
-4. Edit settings.py in your project folder
+    
+3. Edit settings.py in your project folder
 
   ``` bash
   cd ../EXT_GEN/PROJECT
@@ -35,7 +29,7 @@ This hopes to reduce the workload of teachers in scheduling exam timetable. It r
   > Add 'EXT_GEN' in INSTALLED_APPS
   > Add 'EXT_GEN/static/', in STATICFILES_DIR
 
-5. Edit urls.py in your project folder 
+4. Edit urls.py in your project folder 
   
   ``` bash
   nano urls.py
@@ -44,7 +38,7 @@ This hopes to reduce the workload of teachers in scheduling exam timetable. It r
   > Add url(r'^EXT_GEN/', include('EXT_GEN.urls')), to urlpatterns
   
 
-6. Run migrations with manage.py
+5. Run migrations with manage.py
 
   ``` bash
   cd ../
@@ -60,6 +54,12 @@ This hopes to reduce the workload of teachers in scheduling exam timetable. It r
   ```
 
 2. Launch web browser, enter correct IP address (Default is 127.0.0.1:8080/EXT_GEN) and your app is running.
+
+## Dependencies
+
+- Deap
+- Numpy
+- Tabulate
 
 ## License
 
