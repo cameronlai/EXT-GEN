@@ -19,7 +19,8 @@ This hopes to reduce the workload of teachers in scheduling exam timetable. It r
   git clone https://github.com/cameronlai/EXT_GEN
   ```
     
-3. Edit settings.py in your project folder
+3. Edit settings.py in your project folder. 
+Note that older version of Django may require editting static files directories for loading css and js files
 
   ``` bash
   cd ../EXT_GEN_PROJECT
@@ -27,16 +28,13 @@ This hopes to reduce the workload of teachers in scheduling exam timetable. It r
   ```
 
   > Add 'EXT_GEN' in INSTALLED_APPS
-  > Add 'EXT_GEN/static/', in STATICFILES_DIR
 
 4. Edit urls.py in your project folder 
   
   ``` bash
   nano urls.py
   ```
-
-  > Add url(r'^EXT_GEN/', include('EXT_GEN.urls')), to urlpatterns
-  
+  > Add url(r'^$', include('EXT_GEN.urls')), urlpatterns
 
 5. Run migrations with manage.py
 
