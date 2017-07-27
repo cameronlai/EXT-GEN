@@ -51,7 +51,7 @@ Note that older version of Django may require editting static files directories 
   python manage.py runserver
   ```
 
-2. Launch web browser, enter correct IP address (Default is 127.0.0.1:8000/EXT_GEN) and your app is running.
+2. Launch web browser, enter correct IP address (Default is 127.0.0.1:8000) and your app is running.
 
 ## Dependencies
 
