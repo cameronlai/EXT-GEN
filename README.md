@@ -22,7 +22,7 @@ This hopes to reduce the workload of teachers in scheduling exam timetable. It r
 3. Edit settings.py in your project folder
 
   ``` bash
-  cd ../EXT_GEN/PROJECT
+  cd ../EXT_GEN_PROJECT
   nano settings.py
   ```
 
@@ -53,7 +53,7 @@ This hopes to reduce the workload of teachers in scheduling exam timetable. It r
   python manage.py runserver
   ```
 
-2. Launch web browser, enter correct IP address (Default is 127.0.0.1:8080/EXT_GEN) and your app is running.
+2. Launch web browser, enter correct IP address (Default is 127.0.0.1:8000/EXT_GEN) and your app is running.
 
 ## Dependencies
 
